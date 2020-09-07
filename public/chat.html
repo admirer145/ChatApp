@@ -1,0 +1,71 @@
+<html>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <title>Chat Application</title>
+</head>
+<body>
+    <div class="container border bg-primary h-100">
+            <div class="justify-content-center rounded-lg bg-white m-4" >
+                <div class="row text-primary m-3" style="font-size: 1.875em; font-weight: bold;">
+                    <div class="col-12 text-center">
+                        Web Chat
+                    </div>
+                </div>
+                <hr>
+                <div class="row m-auto">
+                    <div class="col-md-3 col-sm-12">
+                        <div class="row m-auto">
+                            <div class="col-12 mb-3 text-primary">
+                                ROOM
+                            </div>
+                            <div class="col-12" id="chatRoom">
+                            <!-- Current room -->
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row m-auto">
+                            <div class="col-12 mb-3 text-primary">
+                                USERS
+                            </div>
+                            <div class="col-12">
+                                <ul id="participantList" class="list-unstyled" style="overflow:auto; height:330px">
+                                    <!-- List of all users in current room -->
+                                </ul>
+                            </div>                            
+                        </div>
+                    </div>
+                    <div class="col-md-9 col-sm-12 border-left">
+                        <div class="row text-right" id="chatMessageDiv" style="overflow:auto; height: 470px;">
+                            <!-- List of all messages in current room -->
+                        </div> 
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-9 offset-3 text-right">
+                        <form id="chatForm" class="row justify-content-center">
+                            <input class="col-9" placeholder="type message" type="text" name="chatMessage" id="chatMessage">
+                            <input class="col-2 btn btn-primary" type="button" value="Send" onclick="sendMessage()" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+    </div>
+    
+    <!-- Optional JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.4/qs.min.js" integrity="sha512-BHtomM5XDcUy7tDNcrcX1Eh0RogdWiMdXl3wJcKB3PFekXb3l5aDzymaTher61u6vEZySnoC/SAj2Y/p918Y3w==" crossorigin="anonymous"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="main.js"></script>
+    
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+</body>
+</html>
+
