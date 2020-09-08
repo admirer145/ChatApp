@@ -6,7 +6,7 @@ var chatRoom = document.getElementById("chatRoom");
 var userObj = Qs.parse(location.search, {ignoreQueryPrefix:true});
 var username = userObj.username;
 var roomname = userObj.roomname;
-
+ 
 console.log("username : "+ username);
 console.log("roomname : "+ roomname);
 
@@ -17,11 +17,13 @@ socket.on("welcomeUser", (msg)=>{
     divElement.className = "col-12 border rounded m-1 text-center";
     divElement.innerHTML = "Web Chat : " + msg;
     chatMessageDiv.appendChild(divElement);
+    chatMessageDiv.scrollTo(0, chatMessageDiv.scrollHeight);
 });
 
 socket.on("chatMessage", (obj)=>{
     // chatMessageDiv.scrollTop = chatMessageDiv.scrollHeight;
     chatMessageDiv.appendChild(formatMessage(obj));
+    chatMessageDiv.scrollTo(0, chatMessageDiv.scrollHeight);
     // chatMessageDiv.innerHTML += formatMessage(obj);
 });
 
@@ -39,6 +41,7 @@ socket.on("modifyUsersList", (obj)=>{
             liElem.appendChild(document.createTextNode(user));
             // console.log(liTextNode);
             participantList.appendChild(liElem);
+            // participantList.scrollTo(0, participantList.scrollHeight);
         }
     }
 });
@@ -51,6 +54,15 @@ socket.on("modifyUserJoin", (obj)=>{
     divElement.innerHTML = str;
     chatMessageDiv.appendChild(divElement);
 });
+
+socket.on("initMessage", (msgArr)=>{
+    if(msgArr){
+        for(let i=0; i<msgArr.length; i++){
+            let msgobj = msgArr[i];
+            chatMessageDiv.appendChild(formatMessage(msgobj));
+        }
+    }
+})
 
 function formatMessage(obj){
     var divElement = document.createElement("div");

@@ -39,18 +39,22 @@ io.on("connection", (socket)=>{
     socket.on("joinRoom", (data)=>{
         socket.join(data.roomname);
         console.log(data);
-        var obj = {username:data.username, message:" has joined the room"};
+        var obj = {username:data.username, message:" has joined the room", roomname:data.roomname};
         userObj.newUserjoin(socket.id, data.username, data.roomname);
-        messageObj.postMessage(obj);
-        socket.emit("welcomeUser", "Welcome to the room");
+        
+        messageObj.getAllMessage(data.roomname, (msgArr)=>{
+            // console.log("All Messages ", msgArr);
+            socket.emit("initMessage", msgArr);
+            socket.emit("welcomeUser", "Welcome to the room");
+            messageObj.postMessage(obj);
+        });
+        
         socket.to(data.roomname).broadcast.emit("modifyUserJoin", obj);
 
         userObj.getAllUser(data.roomname, (usersArr) => {
             // console.log("Users array is ", usersArr);
             io.to(data.roomname).emit("modifyUsersList",  {usersArr:usersArr, currRoom:data.roomname});
-            // return res;
         });
-        // console.log("Outside Users array is ", usersArr);
     });
     socket.on("disconnect", ()=>{
         console.log("User has left the room");
@@ -60,7 +64,7 @@ io.on("connection", (socket)=>{
                 userObj.removeUser(socket.id, (res)=>{
                     console.log("deleted flag ", res);
                     if(res){
-                        var userLeftMsg = {username:tempUser.username, message:" has left the room"};
+                        var userLeftMsg = {username:tempUser.username, message:" has left the room", roomname:tempUser.roomname};
                         messageObj.postMessage(userLeftMsg);
                         socket.to(tempUser.roomname).broadcast.emit("modifyUserJoin", userLeftMsg);   
                         
@@ -76,7 +80,9 @@ io.on("connection", (socket)=>{
         console.log("Message Received: ", obj);
         messageObj.postMessage(obj);
         io.to(obj.roomname).emit("chatMessage", obj);
-        console.log("All Messages ", messageObj.getAllMessage());
+        // messageObj.getAllMessage(obj.roomname, (res)=>{
+        //     console.log("All Messages ", res);
+        // })
     });
 });
 

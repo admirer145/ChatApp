@@ -1,10 +1,7 @@
 var mongoClient = require("mongodb").MongoClient;
 
-// const usersArr = [];
-
 function newUserjoin(id, username, roomname){
     var obj = {id, username, roomname};
-    // usersArr.push(obj);
     mongoClient.connect("mongodb://localhost:27017/", { useUnifiedTopology: true }, (err, dbHost) => {
     if(err){
         console.log("Error connecting to the server");
@@ -22,21 +19,22 @@ function newUserjoin(id, username, roomname){
 }
 
 function getAllUser(roomname, callback){
-    // var usersByRoom = usersArr.filter(item => item.roomname == roomname);
     mongoClient.connect("mongodb://localhost:27017/", { useUnifiedTopology: true }, (err, dbHost) => {
         if(err){
             console.log("Error connecting to the server");
+            return callback([]);
         }else{
             var db = dbHost.db("slDb");
             db.collection("users", (err, coll) => {
                 if(err){
                     console.log("Error connecting to collection");
+                    return callback([]);
                 }else{
                     coll.find({roomname:roomname}).toArray((err, res)=>{
                         if(err){
                             console.log("Cannot find user");
+                            return callback([]);
                         }else{
-                            // console.log("All users in room: ", roomname, " are " , res);
                             return callback(res);
                         }
                     });
@@ -44,24 +42,25 @@ function getAllUser(roomname, callback){
             });
         }
     });
-    return callback(null);
 }
 
 function getUser(id, callback){
     mongoClient.connect("mongodb://localhost:27017/", { useUnifiedTopology: true }, (err, dbHost) => {
         if(err){
             console.log("Error connecting to the server");
+            return callback(null);
         }else{
             var db = dbHost.db("slDb");
             db.collection("users", (err, coll) => {
                 if(err){
                     console.log("Error connecting to collection");
+                    return callback(null);
                 }else{
                     coll.findOne({id:id}, (err, res)=>{
                         if(err){
                             console.log("Cannot find user");
+                            return callback(null);
                         }else{
-                            // console.log("output of find", res);
                             return callback(res);
                         }
                     });
@@ -69,35 +68,26 @@ function getUser(id, callback){
             });
         }
     });
-    // var pos  = usersArr.findIndex(item => item.id==id);
-    // if(pos>=0){
-    //     return usersArr[pos];
-    // }
-    return callback(null);
+    
 }
 
 function removeUser(id, callback){
-    // var pos  = usersArr.findIndex(item => item.id==id);
-    // if(pos>=0){
-    //     usersArr.splice(pos, 1);
-    // }else{
-    //     console.log("User does not exist");
-    // }
-
     mongoClient.connect("mongodb://localhost:27017/", { useUnifiedTopology: true }, (err, dbHost) => {
         if(err){
             console.log("Error connecting to the server");
+            return callback(false);
         }else{
             var db = dbHost.db("slDb");
             db.collection("users", (err, coll) => {
                 if(err){
                     console.log("Error connecting to collection");
+                    return callback(false);
                 }else{
                     coll.deleteOne({id:id}, (err, res)=>{
                         if(err){
                             console.log("Error while deleting user");
+                            return callback(false);
                         }else{
-                            // console.log("Delete result: ", res.deletedCount);
                             if(res.deletedCount == 1){
                                 return callback(true);
                             }else{
@@ -109,7 +99,6 @@ function removeUser(id, callback){
             });
         }
     });
-    return callback(false);
 }
 
 module.exports = {newUserjoin, getAllUser, getUser, removeUser};
