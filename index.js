@@ -44,7 +44,7 @@ io.on("connection", (socket)=>{
         
         messageObj.getAllMessage(data.roomname, (msgArr)=>{
             // console.log("All Messages ", msgArr);
-            socket.emit("initMessage", msgArr);
+            socket.emit("initMessage", {msgArr, currUser:data.username});
             socket.emit("welcomeUser", "Welcome to the room");
             messageObj.postMessage(obj);
         });

@@ -18,6 +18,33 @@ function newUserjoin(id, username, roomname){
 });
 }
 
+function userExists(username, callback){
+    mongoClient.connect("mongodb://localhost:27017/", { useUnifiedTopology: true }, (err, dbHost) => {
+        if(err){
+            console.log("Error connecting to the server");
+        }else{
+            var db = dbHost.db("slDb");
+            db.collection("users", (err, coll) => {
+                if(err){
+                    console.log("Error connecting to collection");
+                }else{
+                    coll.findOne({username}, (err, data) => {
+                        if(err){
+                            console.log("Error while findind the username");
+                        }else{
+                            if(data){
+                                return callback(true);
+                            }else{
+                                return callback(false);
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    });
+}
+
 function getAllUser(roomname, callback){
     mongoClient.connect("mongodb://localhost:27017/", { useUnifiedTopology: true }, (err, dbHost) => {
         if(err){
@@ -101,4 +128,4 @@ function removeUser(id, callback){
     });
 }
 
-module.exports = {newUserjoin, getAllUser, getUser, removeUser};
+module.exports = {newUserjoin, userExists, getAllUser, getUser, removeUser};

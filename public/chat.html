@@ -10,12 +10,17 @@
     <title>Chat Application</title>
 </head>
 <body>
-    <div class="container border bg-primary h-100">
-            <div class="justify-content-center rounded-lg bg-white m-4" >
-                <div class="row text-primary m-3" style="font-size: 1.875em; font-weight: bold;">
-                    <div class="col-12 text-center">
+    <div class="container border bg-primary">
+            <div class="justify-content-center rounded-lg bg-white" >
+                <div class="row text-primary mt-2">
+                    <div class="col-7 text-right m-auto" style="font-size: 1.875em; font-weight: bold;">
                         Web Chat
                     </div>
+                    <div class="col 5 text-right mt-3 mr-2">
+                        <form>
+                            <input value="Leave Room" class="btn btn-primary text-white rounded" onclick="leaveRoom()">
+                        </form>
+                     </div>
                 </div>
                 <hr>
                 <div class="row m-auto">
@@ -34,19 +39,19 @@
                                 USERS
                             </div>
                             <div class="col-12">
-                                <ul id="participantList" class="list-unstyled" style="overflow:auto; height:330px">
+                                <ul id="participantList" class="list-unstyled" style="overflow:auto; height:300px">
                                     <!-- List of all users in current room -->
                                 </ul>
                             </div>                            
                         </div>
                     </div>
                     <div class="col-md-9 col-sm-12 border-left">
-                        <div class="row text-right" id="chatMessageDiv" style="overflow:auto; height: 470px;">
+                        <div class="row" id="chatMessageDiv" style="overflow:auto; height: 450px;">
                             <!-- List of all messages in current room -->
                         </div> 
                     </div>
                 </div>
-                <div class="row">
+                <div class="row mb-2">
                     <div class="col-9 offset-3 text-right">
                         <form id="chatForm" class="row justify-content-center">
                             <input class="col-9" placeholder="type message" type="text" name="chatMessage" id="chatMessage">
